@@ -4,6 +4,9 @@ import Image from 'next/image'
 import { useEffect, useMemo, useState } from 'react'
 import styles from '../styles/Home.module.css'
 
+const maxLength = 40;
+const maxQuantity = 1000;
+
 export default function Home() {
 
 	const [alphabet, setAlphabet] = useState('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz-');
@@ -25,10 +28,22 @@ export default function Home() {
 			return;
 		}
 
+		if(idsLength > maxLength) {
+			setError(`You cannot generate IDs of more than ${maxLength} characters`);
+			setIds([]);
+			return;
+		}
+
 		const idsQuantity = Number(quantity);
 
 		if(!Number.isSafeInteger(idsQuantity) || idsQuantity < 1) {
 			setError(`Invalid ID quantity ${quantity}`);
+			setIds([]);
+			return;
+		}
+
+		if(idsQuantity > maxQuantity) {
+			setError(`You cannot generate more than ${maxQuantity} IDs at once`);
 			setIds([]);
 			return;
 		}
@@ -101,7 +116,11 @@ export default function Home() {
 						{
 							error || (
 								<ul>
-									{ids.map(id => <li key={id}>{id}</li>)}
+									{ids.map(id => (
+										<li key={id}>
+											<span className={styles.monospace}>{id}</span>
+										</li>
+									))}
 								</ul>
 							)
 						}
