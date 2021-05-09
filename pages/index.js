@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useMemo, useState } from 'react'
 import styles from '../styles/Home.module.css'
-import { EVENTS, logEvent } from './lib/analytics';
+import { EVENTS, logEvent } from '../lib/analytics';
 
 const minLength = 3;
 const maxLength = 40;
