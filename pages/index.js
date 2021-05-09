@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useMemo, useState } from 'react'
 import styles from '../styles/Home.module.css'
+import { EVENTS, logEvent } from './lib/analytics';
 
 const minLength = 3;
 const maxLength = 40;
@@ -57,7 +58,15 @@ export default function Home() {
 
 		const nanoid = customAlphabet(alphabet, idsLength);
 
+		const start = Date.now();
 		const generatedIds = Array.from(Array(idsQuantity)).map(() => nanoid());
+		const end = Date.now();
+
+		logEvent(EVENTS.IDS_GENERATED, {
+			alphabet,
+			length,
+			quantity
+		});
 
 		setError('');
 		setIds(generatedIds);
