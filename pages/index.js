@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useEffect, useMemo, useState } from 'react'
 import styles from '../styles/Home.module.css'
 
+const minLength = 3;
 const maxLength = 40;
 const maxQuantity = 1000;
 
@@ -24,6 +25,12 @@ export default function Home() {
 
 		if(!Number.isSafeInteger(idsLength) || idsLength < 1) {
 			setError(`Invalid ID length ${length}`);
+			setIds([]);
+			return;
+		}
+
+		if(idsLength < minLength) {
+			setError(`You cannot generate IDs of less than ${minLength} characters`);
 			setIds([]);
 			return;
 		}
@@ -116,8 +123,8 @@ export default function Home() {
 						{
 							error || (
 								<ul>
-									{ids.map(id => (
-										<li key={id}>
+									{ids.map((id, idx) => (
+										<li key={`${id}-${idx}`}>
 											<span className={styles.monospace}>{id}</span>
 										</li>
 									))}
