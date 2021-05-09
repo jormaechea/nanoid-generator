@@ -5,11 +5,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .main {
-  padding: 5rem 0;
+  padding: 2rem 0;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -20,6 +19,7 @@
 .footer {
   width: 100%;
   height: 100px;
+  padding: 1rem 0;
   border-top: 1px solid #eaeaea;
   display: flex;
   justify-content: center;
@@ -72,14 +72,15 @@
 .grid {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 1.5rem;
   flex-wrap: wrap;
   max-width: 800px;
   margin-top: 3rem;
 }
 
 .card {
-  margin: 1rem;
+  margin: 1rem 0;
   padding: 1.5rem;
   text-align: left;
   color: inherit;
@@ -108,9 +109,42 @@
   line-height: 1.5;
 }
 
+.fullWidthCard ul li {
+  line-height: 2rem;
+}
+
+.card input,
+.fullWidthCard input {
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 0.5rem;
+  width: 100%;
+  letter-spacing: 0.05rem;
+}
+
+.fullWidthCard {
+  margin: 1rem 0;
+  padding: 1.5rem;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  width: 100%;
+}
+
+.fullWidthCard:hover,
+.fullWidthCard:focus,
+.fullWidthCard:active {
+  color: #0070f3;
+  border-color: #0070f3;
+}
+
 .logo {
   height: 1em;
   margin-left: 0.5rem;
+  margin-right: 0.2rem;
 }
 
 @media (max-width: 600px) {
