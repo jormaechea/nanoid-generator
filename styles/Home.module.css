@@ -48,7 +48,7 @@
 .title {
   margin: 0;
   line-height: 1.15;
-  font-size: 4rem;
+  font-size: 2rem;
 }
 
 .title,
@@ -58,26 +58,16 @@
 
 .description {
   line-height: 1.5;
-  font-size: 1.5rem;
-}
-
-.code {
-  background: #fafafa;
-  border-radius: 5px;
-  padding: 0.75rem;
-  font-size: 1.1rem;
-  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-    Bitstream Vera Sans Mono, Courier New, monospace;
+  font-size: 1rem;
 }
 
 .grid {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   padding: 1.5rem;
   flex-wrap: wrap;
-  max-width: 800px;
-  margin-top: 3rem;
+  max-width: 1024px;
 }
 
 .card {
@@ -89,19 +79,27 @@
   border: 1px solid #eaeaea;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
-  width: 45%;
+  width: 17%;
+}
+
+.cardDoubleWidth {
+  width: 37%;
+}
+
+.cardSuperWidth {
+  width: 60%;
 }
 
 .card:hover,
 .card:focus,
-.card:active {
+.card:active  {
   color: #0070f3;
   border-color: #0070f3;
 }
 
 .card h2 {
   margin: 0 0 1rem 0;
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 .card p {
@@ -110,7 +108,19 @@
   line-height: 1.5;
 }
 
-.fullWidthCard ul li {
+.card input {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  padding: 0.5rem;
+  width: 100%;
+  letter-spacing: 0.05rem;
+}
+
+.card ul {
+  padding-left: 0.5rem;
+}
+
+.card ul li {
   line-height: 2rem;
   overflow: hidden;
   white-space: nowrap;
@@ -118,32 +128,21 @@
   width: 100%;
 }
 
-.card input,
-.fullWidthCard input {
+.card ul li .idCopy {
+  display: none;
+  cursor: pointer;
   font-size: 1rem;
-  line-height: 1.5;
-  padding: 0.5rem;
-  width: 100%;
-  letter-spacing: 0.05rem;
+  border: none;
+  background: none;
+  outline: none;
 }
 
-.fullWidthCard {
-  margin: 1rem 0;
-  padding: 1.5rem;
-  text-align: left;
-  color: inherit;
-  text-decoration: none;
-  border: 1px solid #eaeaea;
-  border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
-  width: 100%;
+.card ul li:hover .idCopy {
+  display: inline;
 }
 
-.fullWidthCard:hover,
-.fullWidthCard:focus,
-.fullWidthCard:active {
-  color: #0070f3;
-  border-color: #0070f3;
+.card .action {
+  margin-bottom: 1rem;
 }
 
 .logo {
@@ -165,7 +164,7 @@
   .card {
     width: 100%;
   }
-  .fullWidthCard ul {
+  .card ul {
     list-style: none;
     padding: 0;
   }

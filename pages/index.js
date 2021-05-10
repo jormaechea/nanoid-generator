@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
-import { customAlphabet } from 'nanoid';
 import Head from 'next/head'
 import Image from 'next/image'
+import { customAlphabet } from 'nanoid';
 import { useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
 import { EVENTS, logEvent } from '../lib/analytics';
@@ -23,7 +23,6 @@ const Home = ({
 }) => {
 
 	const router = useRouter();
-	const { query } = router;
 
 	const [alphabet, setAlphabet] = useState(initialAlphabet);
 	const [length, setLength] = useState(initialLength);
@@ -31,6 +30,44 @@ const Home = ({
 
 	const [error, setError] = useState('');
 	const [ids, setIds] = useState([]);
+
+	const [justCopied, setJustCopied] = useState('');
+	const [justCopiedTimer, setJustCopiedTimer] = useState(null);
+
+	const canReset = () => alphabet !== INITIAL_VALUES.alphabet
+		|| length !== INITIAL_VALUES.length
+		|| quantity !== INITIAL_VALUES.quantity;
+
+	const resetVariables = () => {
+		setAlphabet(INITIAL_VALUES.alphabet);
+		setLength(INITIAL_VALUES.length);
+		setQuantity(INITIAL_VALUES.quantity);
+	};
+
+	const copyToClipboard = async (key, text) => {
+		if(!window.navigator || !window.navigator.clipboard)
+			return;
+
+		await window.navigator.clipboard.writeText(text);
+
+		if(justCopiedTimer)
+			clearTimeout(justCopiedTimer);
+
+		setJustCopied(key);
+		setJustCopiedTimer(setTimeout(() => setJustCopied(''), 1000));
+	};
+
+	const copyUrl = async () => {
+		copyToClipboard('url', window.location.href);
+	};
+
+	const copyIds = async () => {
+		copyToClipboard('ids', ids.join('\n'));
+	}
+
+	const copyId = async (key, id) => {
+		copyToClipboard(key, id);
+	}
 
 	useEffect(() => {
 
@@ -116,7 +153,7 @@ const Home = ({
 
 				<div className={styles.grid}>
 
-					<div className={styles.fullWidthCard}>
+					<div className={`${styles.card} ${styles.cardSuperWidth}`}>
 						<h2>Alphabet</h2>
 						<input
 							name="alphabet"
@@ -149,21 +186,42 @@ const Home = ({
 						/>
 					</div>
 
-					<div
-						className={styles.fullWidthCard}
-					>
+					<div className={`${styles.card} ${styles.cardSuperWidth}`}>
 						<h2>IDs</h2>
 						{
 							error || (
 								<ul>
 									{ids.map((id, idx) => (
 										<li key={`${id}-${idx}`}>
-											<span className={styles.monospace}>{id}</span>
+											<code className={styles.monospace}>{id}</code>
+											<button className={styles.idCopy} onClick={() => copyId(`${id}-${idx}`, id)}>📋 {justCopied === `${id}-${idx}` ? 'Copied!' : 'Copy'}</button>
 										</li>
 									))}
 								</ul>
 							)
 						}
+					</div>
+
+					<div className={`${styles.card} ${styles.cardDoubleWidth}`}>
+						<h2>Actions</h2>
+						<input
+							type="button"
+							className={styles.action}
+							value={justCopied === 'url' ? 'Copied!' : '🔗 Copy current URL'}
+							onClick={copyUrl}
+						/>
+						{ids.length > 1 ? <input
+							type="button"
+							className={styles.action}
+							value={justCopied === 'ids' ? 'Copied!' : '📋 Copy all IDs'}
+							onClick={copyIds}
+						/> : null}
+						{canReset() ? <input
+							type="button"
+							className={styles.action}
+							value="Reset generator"
+							onClick={resetVariables}
+						/> : null}
 					</div>
 
 				</div>
