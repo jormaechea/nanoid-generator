@@ -246,7 +246,7 @@ for(let i = 0; i < ${quantity}; i++) {
 							value={justCopied === 'code' ? 'Copied!' : '💻 Generate code'}
 							onClick={copyCode}
 						/>
-						{ids.length > 1 ? <input
+						{ids.length > 0 ? <input
 							type="button"
 							className={styles.action}
 							value={justCopied === 'ids' ? 'Copied!' : '📋 Copy all IDs'}
