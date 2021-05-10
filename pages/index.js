@@ -42,6 +42,7 @@ const Home = ({
 		setAlphabet(INITIAL_VALUES.alphabet);
 		setLength(INITIAL_VALUES.length);
 		setQuantity(INITIAL_VALUES.quantity);
+		logEvent(EVENTS.CONFIGURATION_RESET);
 	};
 
 	const copyToClipboard = async (key, text) => {
@@ -58,15 +59,44 @@ const Home = ({
 	};
 
 	const copyUrl = async () => {
-		copyToClipboard('url', window.location.href);
+		logEvent(EVENTS.URL_COPIED);
+		return copyToClipboard('url', window.location.href);
 	};
 
 	const copyIds = async () => {
-		copyToClipboard('ids', ids.join('\n'));
-	}
+		logEvent(EVENTS.ALL_IDS_COPIED);
+		return copyToClipboard('ids', ids.join('\n'));
+	};
 
 	const copyId = async (key, id) => {
-		copyToClipboard(key, id);
+		logEvent(EVENTS.ONE_ID_COPIED);
+		return copyToClipboard(key, id);
+	};
+
+	const copyCode = async () => {
+
+		if(error)
+			return;
+
+		const customAlphabet = alphabet !== INITIAL_VALUES.alphabet;
+
+		const importStatement = `import { ${customAlphabet ? 'customAlphabet' : 'nanoid'} } from 'nanoid';`;
+
+		const nanoIdInstance = customAlphabet ? `\n\nconst nanoid = customAlphabet('${alphabet}', ${length})` : '';
+
+		const idGeneration = customAlphabet ? 'nanoid()' : `nanoid(${length})`;
+
+		const fullIdGeneration = Number(quantity) === 1 ? `const id = ${idGeneration};` : `const ids = [];
+
+for(let i = 0; i < ${quantity}; i++) {
+	ids.push(${idGeneration});
+}`;
+
+		const generatedCode = `${importStatement}${nanoIdInstance}\n\n${fullIdGeneration}`;
+
+		logEvent(EVENTS.CODE_COPIED);
+
+		return copyToClipboard('code', generatedCode);
 	}
 
 	useEffect(() => {
@@ -210,6 +240,12 @@ const Home = ({
 							value={justCopied === 'url' ? 'Copied!' : '🔗 Copy current URL'}
 							onClick={copyUrl}
 						/>
+						<input
+							type="button"
+							className={styles.action}
+							value={justCopied === 'code' ? 'Copied!' : '💻 Generate code'}
+							onClick={copyCode}
+						/>
 						{ids.length > 1 ? <input
 							type="button"
 							className={styles.action}
@@ -219,7 +255,7 @@ const Home = ({
 						{canReset() ? <input
 							type="button"
 							className={styles.action}
-							value="Reset generator"
+							value="♻️ Reset generator"
 							onClick={resetVariables}
 						/> : null}
 					</div>
