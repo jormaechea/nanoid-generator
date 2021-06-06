@@ -13,7 +13,7 @@ const maxQuantity = 1000;
 const INITIAL_VALUES = {
 	alphabet: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz-',
 	length: 21,
-	quantity: 1
+	quantity: 10
 };
 
 const Home = ({
@@ -183,81 +183,85 @@ for(let i = 0; i < ${quantity}; i++) {
 
 				<div className={styles.grid}>
 
-					<div className={`${styles.card} ${styles.cardSuperWidth}`}>
-						<h2>Alphabet</h2>
-						<input
-							name="alphabet"
-							value={alphabet}
-							onChange={e => setAlphabet(e.target.value)}
-						/>
+					<div className={styles.leftColumn}>
+						<div className={`${styles.card} ${styles.ids}`}>
+							<h2>IDs</h2>
+							{
+								error || (
+									<ul>
+										{ids.map((id, idx) => (
+											<li key={`${id}-${idx}`}>
+												<code className={styles.monospace}>{id}</code>
+												<button className={styles.idCopy} onClick={() => copyId(`${id}-${idx}`, id)}>📋 {justCopied === `${id}-${idx}` ? 'Copied!' : 'Copy'}</button>
+											</li>
+										))}
+									</ul>
+								)
+							}
+						</div>
 					</div>
 
-					<div className={styles.card}>
-						<h2>Length</h2>
-						<input
-							name="length"
-							value={length}
-							onChange={e => setLength(e.target.value)}
-							type="number"
-							step="1"
-							min="1"
-						/>
-					</div>
+					<div className={styles.rightColumn}>
+						<div className={styles.card}>
+							<h2>Alphabet</h2>
+							<textarea
+								name="alphabet"
+								value={alphabet}
+								onChange={e => setAlphabet(e.target.value)}
+							/>
+						</div>
 
-					<div className={styles.card}>
-						<h2>Quantity</h2>
-						<input
-							name="quantity"
-							value={quantity}
-							onChange={e => setQuantity(e.target.value)}
-							type="number"
-							step="1"
-							min="1"
-						/>
-					</div>
+						<div className={`${styles.card} ${styles.cardMidWidth}`}>
+							<h2>Length</h2>
+							<input
+								name="length"
+								value={length}
+								onChange={e => setLength(e.target.value)}
+								type="number"
+								step="1"
+								min="1"
+							/>
+						</div>
 
-					<div className={`${styles.card} ${styles.cardSuperWidth}`}>
-						<h2>IDs</h2>
-						{
-							error || (
-								<ul>
-									{ids.map((id, idx) => (
-										<li key={`${id}-${idx}`}>
-											<code className={styles.monospace}>{id}</code>
-											<button className={styles.idCopy} onClick={() => copyId(`${id}-${idx}`, id)}>📋 {justCopied === `${id}-${idx}` ? 'Copied!' : 'Copy'}</button>
-										</li>
-									))}
-								</ul>
-							)
-						}
-					</div>
+						<div className={`${styles.card} ${styles.cardMidWidth}`}>
+							<h2>Quantity</h2>
+							<input
+								name="quantity"
+								value={quantity}
+								onChange={e => setQuantity(e.target.value)}
+								type="number"
+								step="1"
+								min="1"
+							/>
+						</div>
 
-					<div className={`${styles.card} ${styles.cardDoubleWidth}`}>
-						<h2>Actions</h2>
-						<input
-							type="button"
-							className={styles.action}
-							value={justCopied === 'url' ? 'Copied!' : '🔗 Copy current URL'}
-							onClick={copyUrl}
-						/>
-						<input
-							type="button"
-							className={styles.action}
-							value={justCopied === 'code' ? 'Copied!' : '💻 Generate code'}
-							onClick={copyCode}
-						/>
-						{ids.length > 0 ? <input
-							type="button"
-							className={styles.action}
-							value={justCopied === 'ids' ? 'Copied!' : '📋 Copy all IDs'}
-							onClick={copyIds}
-						/> : null}
-						{canReset() ? <input
-							type="button"
-							className={styles.action}
-							value="♻️ Reset generator"
-							onClick={resetVariables}
-						/> : null}
+						<div className={styles.card}>
+							<h2>Actions</h2>
+							<input
+								type="button"
+								className={styles.action}
+								value={justCopied === 'url' ? 'Copied!' : '🔗 Copy current URL'}
+								onClick={copyUrl}
+							/>
+							<input
+								type="button"
+								className={styles.action}
+								value={justCopied === 'code' ? 'Copied!' : '💻 Generate code'}
+								onClick={copyCode}
+							/>
+							{ids.length > 0 ? <input
+								type="button"
+								className={styles.action}
+								value={justCopied === 'ids' ? 'Copied!' : '📋 Copy all IDs'}
+								onClick={copyIds}
+							/> : null}
+							{canReset() ? <input
+								type="button"
+								className={styles.action}
+								value="♻️ Reset generator"
+								onClick={resetVariables}
+							/> : null}
+						</div>
 					</div>
 
 				</div>

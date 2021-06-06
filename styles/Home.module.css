@@ -70,24 +70,37 @@
   max-width: 1024px;
 }
 
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.rightColumn {
+  display: flex;
+  width: 37%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 .card {
   margin: 1rem 0;
   padding: 1.5rem;
   text-align: left;
   color: inherit;
   text-decoration: none;
-  border: 1px solid #eaeaea;
+  border: 1px solid #666;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
-  width: 17%;
+  width: 100%;
 }
 
-.cardDoubleWidth {
-  width: 37%;
+.ids {
+  background-color: #292929;
 }
 
-.cardSuperWidth {
-  width: 60%;
+.cardMidWidth {
+  width: 48%;
 }
 
 .card h2 {
@@ -101,12 +114,22 @@
   line-height: 1.5;
 }
 
-.card input {
+.card input,
+.card textarea {
+  background-color: #292929;
+  border-color: #1f1f1f;
+  color: #FFF;
   font-size: 0.8rem;
   line-height: 1.5;
   padding: 0.5rem;
   width: 100%;
   letter-spacing: 0.05rem;
+}
+
+.card textarea {
+  resize: vertical;
+  min-height: 60px;
+  max-height: 100px;
 }
 
 .card ul {
@@ -121,6 +144,10 @@
   width: 100%;
 }
 
+.card ul li code {
+  letter-spacing: 0.05rem;
+}
+
 .card ul li .idCopy {
   display: none;
   cursor: pointer;
@@ -128,6 +155,7 @@
   border: none;
   background: none;
   outline: none;
+  color: #CCC;
 }
 
 .card ul li:hover .idCopy {
@@ -135,12 +163,13 @@
 }
 
 .card .action {
+  cursor: pointer;
   margin-bottom: 1rem;
 }
 
 .logo {
   height: 1em;
-  margin-left: 0.5rem;
+  margin-left: 0.3rem;
   margin-right: 0.2rem;
 }
 
@@ -154,11 +183,20 @@
     width: 100%;
     flex-direction: column;
   }
+  .leftColumn,
+  .rightColumn {
+    width: 100%;
+  }
   .card {
     width: 100%;
   }
   .card ul {
     list-style: none;
     padding: 0;
+  }
+  .card textarea {
+    max-height: none;
+    height: 130px;
+    resize: none;
   }
 }
